@@ -24,7 +24,7 @@ Two default sheets to ignore are the search and combo sheets, and their names ar
 4.	The RIGHT and LEN function are used in order to clean the value in each row in the added column, so it will present only the sheet name value, without the numbers sequence returned from ROW.
 5.	The assembled function will be entered by default into the A1 cell in the COMBO_SHEET_NAME sheet.
 6.	Note that if a sheet is removed or added, the formula won't be updated automatically, therefore I've added a "Refresh" icon on both sheets to run the script that built the formula, when needed.
-Here's an example of how the generated function would look like:
+Here's an example of how the generated function would look like:  
 =ARRAYFORMULA(QUERY({
 TheBeatles!$B$5:$E, RIGHT(ROW(TheBeatles!$B$5:$E)&"TheBeatles", LEN("TheBeatles"));
 'Iron Maiden'!$B$5:$E, RIGHT(ROW('Iron Maiden'!$B$5:$E)&"Iron Maiden", LEN("Iron Maiden"));
@@ -33,7 +33,7 @@ Queen!$B$5:$E, RIGHT(ROW(Queen!$B$5:$E)&"Queen", LEN("Queen"))
 
 # Deeper Dive into The Search Sheet
 1.	The search sheet is made in order to search specific values, that might be located in multiple rows in a large table. Each parameter acts as a filter to the search results (if a parameter left empty, then it's not effective).
-2.	The search is done by using this Google Sheets function:
+2.	The search is done by using this Google Sheets function:  
 =IFERROR(
 QUERY(INDIRECT($B$1),
 "SELECT Col5, Col1, Col2, Col3, Col4 WHERE "& 
@@ -51,9 +51,9 @@ C.	Each parameter is compared against one column of the table. In D4, D5 and D6 
 5.	In the example, the search allows partial match with no case-sensitivity. The partial match is allowed by using the query keyword LIKE (instead of the equal sign for exact match) and the wildcard precent symbol (%) to specify prefix and suffix (by using precent sign at the beginning and at the end it means we're looking for results that has the search value contained within).
 6.	The LOWER query function allows the result to not be case sensitive. 
 In my personal use, I want to also ignore spaces and special signs in the search string/result. So, if a table contains for example "Paul McCartney" and a user searched for "paul-mccartney" it will still return the result in the query. To accomplish that I create a custom/named function in Google Sheets with the name "FIX_NAME" and it substitutes the signs and spaces with nothing and then it uses UPPER on the string. I apply the function inside the query for each parameter. To apply the function on the table I add 3 columns to the table, one column that is corresponding for each search column. At the first row I enter an ARRAYFORMULA to apply the FIX_NAME function on all the values in the search column (so if I want to "fix" column D I will enter =ARRAYFORMULA(FIX_NAME(D1:D)). Then I will change the query accordingly to compare the parameters with the corresponding fixed columns (and also delete the LOWER function from the query). 
-7.	Here's an example of the FIX_NAME function:
+7.	Here's an example of the FIX_NAME function:  
 =UPPER(SUBSTITUTE(SUBSTITUTE(name, " ", ""),"-",""))
-8.	Here's an example of the formula with "hard-coded" columns and using the FIX_NAME function:
+8.	Here's an example of the formula with "hard-coded" columns and using the FIX_NAME function:  
 =IFERROR( QUERY(COMBO!$A$1:$K, "SELECT Col8, Col1, Col2, Col3, Col4, Col7 WHERE "& IF(ISBLANK($F$2), "", "Col9 LIKE '%"&FIX_NAME($F$2)&"%'") & 
 IF(ISBLANK($F$3), "", IF(ISBLANK($F$2), "", " AND ")& "Col10 LIKE '%"&FIX_NAME($F$3)&"%'") & IF(ISBLANK($F$4), "", IF(AND(ISBLANK($F$2), ISBLANK($F$3)), "", " AND ") & "Col11 LIKE '%"&FIX_NAME($F$4)&"%'")&" ORDER BY Col9"), "No Search Results")
 
