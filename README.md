@@ -1,7 +1,7 @@
 # GoogleSheetsSearch
 By using Google Sheets formulas, QUERY and an App-Script script, I've created a search sheet that allows the user to enter up to 3 search values and get the results intersection from a tabel, and a sheet the combines/stack multiple tables from different sheets into one table. Combining both sheets allow to search in multiple sheets.
 
-Search in Google Sheets in Different Sheets
+# Search in Google Sheets in Different Sheets
 With Up to 3 Parameters
 
 1.	To See the Generalized template go to: https://docs.google.com/spreadsheets/d/1vL8FRdpASL1ZZAvaeR1QlVeRyNOIa0TRU3R9psJ76Eg/edit?usp=sharing
@@ -12,7 +12,7 @@ The results are the intersection of all the parameters that had entered, meaning
 B.	Combine: The combine tables sheets (name: "ComboTable") is using a script to create a formula that stacks tables from different sheets into one table.
 The assumption is that all the tables in all the sheets are starting in the same row and column, and has the same number of columns. The last row may vary between the table. The formula is dynamic so if values are added/removed from the table it would update automatically. In addition, the formula adds a column to the table columns to document the sheet name origin/source of the table. This is also dynamically updated if the user changes a sheet name.
 
-Deeper Dive into The Combo Script
+# Deeper Dive into The Combo Script
 1.	In the head of the script, we can find constants to help us customize the code in accordance to our needs. The constant EVERY_TABLE_RANGE holds the range in the format of $FIRST_COL$FIRST_ROW:$LAST_COL. 
 Please note that:
 A.	 There's no last row in order to keep the table dynamic.
@@ -31,7 +31,7 @@ TheBeatles!$B$5:$E, RIGHT(ROW(TheBeatles!$B$5:$E)&"TheBeatles", LEN("TheBeatles"
 Queen!$B$5:$E, RIGHT(ROW(Queen!$B$5:$E)&"Queen", LEN("Queen"))
 }, "SELECT * WHERE Col1 IS NOT NULL"))
 
-Deeper Dive into The Search Sheet
+# Deeper Dive into The Search Sheet
 1.	The search sheet is made in order to search specific values, that might be located in multiple rows in a large table. Each parameter acts as a filter to the search results (if a parameter left empty, then it's not effective).
 2.	The search is done by using this Google Sheets function:
 =IFERROR(
